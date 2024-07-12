@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Role;
+use App\Models\User;
 use App\Response\Message;
 use Illuminate\Http\Request;
 use App\Functions\GlobalFunction;
@@ -85,9 +86,9 @@ class RoleController extends Controller
             return GlobalFunction::response_function(Message::RESTORE_STATUS);
         }
 
-        // if (User::where('role_id', $id)->exists()) {
-        //     return GlobalFunction::invalid(Message::ROLE_ALREADY_USE);
-        // }
+        if (User::where('role_id', $id)->exists()) {
+            return GlobalFunction::invalid(Message::ROLE_ALREADY_USE);
+        }
 
         if (!$role->deleted_at) {
             $role->update([
